@@ -58,6 +58,8 @@ namespace Utca
                 ujszin = (char)('A' + r.Next('Z' - 'A'));
             } while (ujszin.Equals(szomszed1) || ujszin.Equals(szomszed2));
             Console.WriteLine($"\tEgy lehetséges festési szín: {ujszin}");
+
+            Feladat_06();
             Console.WriteLine("\nProgram vége!");
             Console.ReadKey();
         }
@@ -77,6 +79,28 @@ namespace Utca
             {
                 Console.WriteLine(ex.Message);
                 Environment.Exit(0);
+            }
+        }
+        static void Feladat_06()
+        {
+            using (StreamWriter sw = new StreamWriter("utcakep.txt"))
+            {
+                /*  Az első sorban a páratlan oldal jelenjen meg, 
+                 * a megfelelő méternyi szakasz kerítésszínét (vagy állapotát) 
+                 * jelző karakterrel!
+                 */
+                string elsosor = string.Empty;
+                foreach (Telek item in telkek.FindAll(a => a.Oldal == PARATLAN))
+                {
+                    elsosor += new String(item.Kerites, item.Szelesseg);
+                }
+                string masodiksor = string.Empty;
+                foreach (Telek item in telkek.FindAll(a => a.Oldal == PARATLAN))
+                {
+                    masodiksor += item.Hazszam.ToString().PadRight(item.Szelesseg, ' ');
+                }
+                sw.WriteLine(elsosor);
+                sw.WriteLine(masodiksor);
             }
         }
     }
